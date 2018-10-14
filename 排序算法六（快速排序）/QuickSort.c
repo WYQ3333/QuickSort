@@ -8,6 +8,7 @@ void swap(int *p, int *q)
 	*q = tmp;
 }
 
+//////////////////////////////////////////////////////////////////////////////
 int Parition1(int array[], int left, int right)//将数组分为两部分，返回下标
 {
 	int begin = left;
@@ -44,6 +45,7 @@ void QuickSort1(int array[], int size)
 	_QuickSort1(array, 0, size - 1);
 }
 
+/////////////////////////////////////////////////////////////////////////////////////
 int Parition2(int array[], int left, int right)
 {
 	int begin = left;
@@ -82,12 +84,47 @@ void QuickSort2(int array[], int size)
 	_QuickSort2(array, 0, size - 1);
 }
 
+/////////////////////////////////////////////////////////////////////////////////////
+
+int Parition3(int array[], int left, int right)
+{
+	int div = left;
+	int cur = left;
+	for (; cur < right; cur++)
+	{
+		if (array[cur] <= array[right])
+		{
+			swap(&array[cur], &array[div]);
+			div++;
+		}
+	}
+	swap(&array[div], &array[right]);
+	return div;
+}
+
+void _QuickSort3(int array[], int left, int right)
+{
+	if (left == right)//只有一个数
+		return;
+	if (left > right)//没有数
+		return;
+	int div = Parition3(array, left, right);
+	_QuickSort3(array, left, div - 1);
+	_QuickSort3(array, div + 1, right);
+}
+
+void QuickSort3(int array[], int size)
+{
+	_QuickSort3(array, 0, size - 1);
+}
+
 void test()
 {
 	int array[] = { 10, 9, 8, 7, 6, 5, 4, 3, 2, 1 };
 	int size = sizeof(array) / sizeof(array[0]);
 	//QuickSort1(array, size);//hoare版快排
-	QuickSort2(array, size);//挖坑法快排
+	//QuickSort2(array, size);//挖坑法快排
+	QuickSort3(array, size);//前后指针
 	for (int i = 0; i < size; i++)
 	{
 		printf("%d ", array[i]);
